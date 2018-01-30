@@ -2,25 +2,31 @@ pragma solidity ^0.4.18;
 
 contract Voting {
   //making candidates hash
-  mapping (string => uint8);
+  mapping (bytes32 => uint8) public votesReceived;
+  bytes32[] public candidateList;
 
   //constructor
-  function Voting {
-    //add candidate list
+  function Voting(bytes32[] candidateNames) public {
+    candidateList = candidateNames;
   }
 
-  function addVote(string _candidate) public view validCandidate(_candidate) {
-    candidates[_candidate] ++;
+  function totalVotesFor(bytes32 _candidate) view public validCandidate(_candidate) returns (uint8){
+    //test out modifier instead of other function
+    //require(validCandidate(_candidate));
+    return votesReceived[_candidate]);
   }
 
-  modifier validCandidate(string _candidate) public {
-    for (uint i = 0; i < candidates.length; i++) {
-      if (candidates[i] == _candidate) {
+  function voteForCandidate(bytes32 _candidate) public validCandidate(_candidate) {
+    candidateList[_candidate] ++;
+  }
+
+  modifier validCandidate(bytes32 _candidate) public {
+    for (uint i = 0; i < candidateList.length; i++) {
+      if (candidateList[i] == _candidate) {
         return true;
-      } else {
-        return false;
       }
     }
+    return false;
   }
 
 }
